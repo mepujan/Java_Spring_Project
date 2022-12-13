@@ -11,8 +11,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
@@ -21,12 +19,9 @@ import java.util.List;
 import static org.mockito.Mockito.eq;
 
 @WebMvcTest(BookController.class)
-public class BookStoreTest {
+public class BookStoreControllerTest {
     @Autowired
     private MockMvc mockMVC;
-
-    @MockBean
-    private BookCache bookCache;
     @MockBean
     private BookRepository bookRepo;
 
@@ -57,7 +52,7 @@ public class BookStoreTest {
     }
 
     @Test
-    public void createPostTest_InvalidUser() throws Exception {
+    public void createPostTest_InvalidBookInfo() throws Exception {
         Books expectedBook = new Books(null, "python", "lambton",220, "pujan");
 
         mockMVC.perform(post("/createbook").param("name", "java")
@@ -82,10 +77,4 @@ public class BookStoreTest {
                 .andExpect(view().name("index"))
                 .andExpect(model().attribute("books", expectedList));
     }
-
-
-
-
-
-
 }
